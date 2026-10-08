@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi tienda</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&display=swap');
+
+    /* ===== Paleta cómic: morado + blanco ===== */
+    :root {
+      --morado-oscuro: #3b0764;   /* textos fuertes y fondos oscuros */
+      --morado: #6d28d9;          /* color principal */
+      --morado-vivo: #8b5cf6;     /* acentos */
+      --lavanda: #ede9fe;         /* fondo general */
+      --blanco: #ffffff;
+      --amarillo: #ffd23f;        /* contraste vivo */
+      --rosa: #e11d74;            /* alertas / vaciar */
+      --tinta: #1a0b2e;           /* bordes y texto base */
+    }
+
+    body {
+      font-family: 'Comic Neue', 'Comic Sans MS', system-ui, Arial, sans-serif;
+      font-weight: 700;
+      background-color: var(--lavanda);
+      background-image: radial-gradient(#c4b5fd 20%, transparent 22%);
+      background-size: 16px 16px;
+      color: var(--tinta);
+      padding: 20px;
+      margin: 0;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Bangers', Impact, sans-serif;
+      letter-spacing: 2px;
+      color: var(--morado-oscuro);
+      margin-bottom: 8px;
+    }
+
+    .slogan {
+      color: var(--morado-oscuro);
+      font-size: 18px;
+      margin-top: 0;
+      margin-bottom: 25px;
+    }
+
+    /* ===== Header cómic (versión morada) ===== */
+
+    .comic-header {
+      background-color: var(--morado);
+      background-image: radial-gradient(#8b5cf6 22%, transparent 24%);
+      background-size: 14px 14px;
+      border: 5px solid var(--tinta);
+      border-radius: 12px;
+      box-shadow: 8px 8px 0 var(--tinta);
+      padding: 28px 20px 22px;
+      margin: 16px auto 28px;
+      max-width: 900px;
+      position: relative;
+    }
+
+    .comic-header .marca {
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: clamp(2.6rem, 9vw, 5rem);
+      letter-spacing: 3px;
+      margin: 0;
+      color: var(--blanco);
+      -webkit-text-stroke: 3px var(--tinta);
+      paint-order: stroke fill;
+      text-shadow: 5px 5px 0 var(--amarillo);
+      transform: rotate(-2deg);
+      display: inline-block;
+    }
+
+    .comic-header .subtitulo {
+      display: inline-block;
+      background: var(--amarillo);
+      color: var(--tinta);
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 1.5px;
+      padding: 4px 14px;
+      border: 3px solid var(--tinta);
+      box-shadow: 4px 4px 0 var(--tinta);
+      margin: 10px 0 0;
+      transform: rotate(1.5deg);
+    }
+
+    .comic-header .slogan {
+      position: relative;
+      display: inline-block;
+      background: var(--blanco);
+      color: var(--tinta);
+      font-size: 1.15rem;
+      padding: 10px 20px;
+      margin: 22px 0 18px;
+      border: 4px solid var(--tinta);
+      border-radius: 24px;
+      box-shadow: 4px 4px 0 var(--tinta);
+    }
+    .comic-header .slogan::after {
+      content: "";
+      position: absolute;
+      bottom: -18px;
+      left: 40px;
+      border: 10px solid transparent;
+      border-top: 14px solid var(--tinta);
+    }
+    .comic-header .slogan::before {
+      content: "";
+      position: absolute;
+      bottom: -11px;
+      left: 43px;
+      border: 7px solid transparent;
+      border-top: 11px solid var(--blanco);
+      z-index: 1;
+    }
+
+    .comic-header .pow {
+      position: absolute;
+      top: -22px;
+      right: -14px;
+      background: var(--amarillo);
+      color: var(--tinta);
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 1.4rem;
+      padding: 22px 26px;
+      transform: rotate(12deg);
+      clip-path: polygon(50% 0, 62% 18%, 85% 8%, 82% 32%, 100% 40%, 84% 56%, 96% 80%, 70% 76%, 60% 100%, 46% 80%, 22% 94%, 24% 68%, 0 60%, 18% 44%, 6% 20%, 32% 26%);
+    }
+
+    /* ===== Beneficios de la tienda ===== */
+
+    .beneficios {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .beneficios span {
+      font-size: 15px;
+      background-color: var(--blanco);
+      color: var(--morado-oscuro);
+      border: 3px solid var(--tinta);
+      border-radius: 6px;
+      padding: 7px 14px;
+      box-shadow: 3px 3px 0 var(--tinta);
+      transition: transform .15s;
+    }
+    .beneficios span:nth-child(2) { background-color: var(--amarillo); color: var(--tinta); }
+    .beneficios span:nth-child(3) { background-color: #f5d0fe; }
+    .beneficios span:hover { transform: translate(-2px, -2px) rotate(-2deg); }
+
+    /* ===== Catálogo ===== */
+
+    #productos {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .producto {
+      border: 4px solid var(--tinta);
+      background: var(--blanco);
+      border-radius: 10px;
+      box-shadow: 6px 6px 0 var(--morado);
+      padding: 10px;
+      width: 220px;
+      vertical-align: top;
+      transition: transform .15s;
+    }
+    .producto:hover { transform: translate(-3px, -3px) rotate(-1deg); }
+
+    .producto img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border: 3px solid var(--tinta);
+      border-radius: 4px;
+    }
+
+    .producto h3 {
+      margin-bottom: 8px;
+      color: var(--morado-oscuro);
+    }
+
+    .descripcion {
+      font-size: 14px;
+      color: #4c1d95;
+      min-height: 42px;
+    }
+
+    .precio {
+      display: inline-block;
+      font-size: 19px;
+      font-weight: bold;
+      color: var(--tinta);
+      background: var(--amarillo);
+      border: 3px solid var(--tinta);
+      border-radius: 6px;
+      padding: 2px 10px;
+    }
+
+    /* ===== Botones ===== */
+
+    .producto button {
+      background-color: var(--morado);
+      border: 3px solid var(--tinta);
+      box-shadow: 3px 3px 0 var(--tinta);
+      color: var(--blanco);
+      font-family: inherit;
+      font-weight: 700;
+      padding: 9px 14px;
+      margin-top: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .producto button:hover {
+      background-color: var(--morado-vivo);
+    }
+
+    /* ===== Carrito ===== */
+
+    .carrito {
+      margin-top: 35px;
+      padding: 20px;
+      background: var(--blanco);
+      color: var(--tinta);
+      border: 4px solid var(--tinta);
+      border-radius: 10px;
+      box-shadow: 8px 8px 0 var(--morado);
+      text-align: left;
+      display: inline-block;
+      min-width: 320px;
+    }
+
+    .carrito h2 {
+      margin-top: 0;
+      font-family: 'Bangers', Impact, sans-serif;
+      letter-spacing: 1.5px;
+      color: var(--morado);
+    }
+
+    #lista-carrito {
+      padding-left: 20px;
+    }
+
+    #lista-carrito li {
+      margin-bottom: 8px;
+    }
+
+    .resumen {
+      border-top: 3px dashed var(--morado-vivo);
+      margin-top: 15px;
+      padding-top: 10px;
+    }
+
+    .total {
+      font-size: 20px;
+      color: var(--morado-oscuro);
+    }
+
+    /* Botón vaciar */
+
+    .vaciar {
+      background-color: var(--rosa);
+      border: 3px solid var(--tinta);
+      box-shadow: 3px 3px 0 var(--tinta);
+      color: var(--blanco);
+      font-family: inherit;
+      font-weight: 700;
+      padding: 9px 14px;
+      margin-top: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* Botón finalizar */
+
+    .finalizar {
+      background-color: var(--amarillo);
+      border: 3px solid var(--tinta);
+      box-shadow: 3px 3px 0 var(--tinta);
+      color: var(--tinta);
+      font-family: inherit;
+      font-weight: 700;
+      padding: 9px 14px;
+      margin-top: 10px;
+      margin-left: 5px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .vaciar:hover,
+    .finalizar:hover {
+      transform: translate(-2px, -2px);
+      filter: brightness(1.08);
+    }
+  </style>
+</head>
+<body>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    .comic-header {
+      background-color: #ffd23f;
+      background-image: radial-gradient(#f5a800 22%, transparent 24%);
+      background-size: 14px 14px;
+      border: 5px solid #111;
+      border-radius: 12px;
+      box-shadow: 8px 8px 0 #111;
+      padding: 28px 20px 22px;
+      margin: 16px auto 28px;
+      max-width: 900px;
+      text-align: center;
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+      position: relative;
+    }
+
+    .comic-header .marca {
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: clamp(2.6rem, 9vw, 5rem);
+      letter-spacing: 3px;
+      margin: 0;
+      color: #fff;
+      -webkit-text-stroke: 3px #111;
+      paint-order: stroke fill;
+      text-shadow: 5px 5px 0 #e63946;
+      transform: rotate(-2deg);
+      display: inline-block;
+    }
+
+    .comic-header .subtitulo {
+      display: inline-block;
+      background: #e63946;
+      color: #fff;
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 1.5px;
+      padding: 4px 14px;
+      border: 3px solid #111;
+      box-shadow: 4px 4px 0 #111;
+      margin: 10px 0 0;
+      transform: rotate(1.5deg);
+    }
+
+    /* Globo de diálogo */
+    .comic-header .slogan {
+      position: relative;
+      display: inline-block;
+      background: #fff;
+      color: #111;
+      font-size: 1.15rem;
+      padding: 10px 20px;
+      margin: 22px 0 18px;
+      border: 4px solid #111;
+      border-radius: 24px;
+      box-shadow: 4px 4px 0 #111;
+    }
+    .comic-header .slogan::after {
+      content: "";
+      position: absolute;
+      bottom: -18px;
+      left: 40px;
+      border: 10px solid transparent;
+      border-top: 14px solid #111;
+    }
+    .comic-header .slogan::before {
+      content: "";
+      position: absolute;
+      bottom: -11px;
+      left: 43px;
+      border: 7px solid transparent;
+      border-top: 11px solid #fff;
+      z-index: 1;
+    }
+
+    .comic-header .beneficios {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+    .comic-header .beneficios span {
+      background: #4cc9f0;
+      border: 3px solid #111;
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-weight: 700;
+      box-shadow: 3px 3px 0 #111;
+      transition: transform .15s;
+    }
+    .comic-header .beneficios span:nth-child(2) { background: #8ac926; }
+    .comic-header .beneficios span:nth-child(3) { background: #ff9ecd; }
+    .comic-header .beneficios span:hover { transform: translate(-2px, -2px) rotate(-2deg); }
+
+    /* Estallido decorativo */
+    .comic-header .pow {
+      position: absolute;
+      top: -22px;
+      right: -14px;
+      background: #e63946;
+      color: #fff;
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 1.4rem;
+      padding: 12px 16px;
+      border: 3px solid #111;
+      transform: rotate(12deg);
+      clip-path: polygon(50% 0, 62% 18%, 85% 8%, 82% 32%, 100% 40%, 84% 56%, 96% 80%, 70% 76%, 60% 100%, 46% 80%, 22% 94%, 24% 68%, 0 60%, 18% 44%, 6% 20%, 32% 26%);
+      padding: 22px 26px;
+      border: none;
+    }
+  </style>
+
+  <header class="comic-header">
+    <div class="pow">¡POW!</div>
+
+    <h1 class="marca">HarveyComics</h1>
+    <br>
+    <span class="subtitulo">🍽️ Comida Internacional</span>
+    <br>
+
+    <p class="slogan">
+      ¡Sabores del mundo a un clic de distancia! 🌎
+    </p>
+
+    <div class="beneficios">
+      <span>🚚 Envíos en Bogotá</span>
+      <span>🔒 Compra segura</span>
+      <span>📦 Seguimiento de pedido</span>
+    </div>
+  </header>
+
+  <div id="productos"></div>
+
+  <div class="carrito">
+    <h2>🧾 Carrito de Compras</h2>
+
+    <ul id="lista-carrito"></ul>
+
+    <div class="resumen">
+      <p>
+        Envío: <strong>Gratis</strong>
+      </p>
+
+      <p class="total">
+        Total: $<span id="total">0</span>
+      </p>
+    </div>
+
+    <button class="vaciar" onclick="vaciarCarrito()">
+      🧼 Vaciar Carrito
+    </button>
+
+    <button class="finalizar" onclick="finalizarCompra()">
+      ✅ Finalizar Compra
+    </button>
+  </div>
+
+  <script>
+    const productos = [
+      {
+        id: 1,
+        nombre: "Marvel Comics",
+        descripcion: "¡El inicio de una era legendaria!.",
+        precio: 25000,
+        imagen: "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781608873968/marvel-comics-9781608873968_lg.jpg"
+      },
+      {
+        id: 2,
+        nombre: "Thor (2020)",
+        descripcion: "El Dios del Trueno regresa con una historia llena de acción, poder y grandes batallas..",
+        precio: 18000,
+        imagen: "https://marmota.me/wp-content/uploads/2022/08/Thor-2020-Directors-Cut-001-000.jpg"
+      },
+      {
+        id: 3,
+        nombre: "Los Vengadores No. 1: La Llegada de los Vengadores",
+        descripcion: "¡Una pieza imprescindible para todo coleccionista Marvel!.",
+        precio: 30000,
+        imagen: "https://images.cdn2.buscalibre.com/fit-in/660x660/6a/b6/6ab64c137e2e62ecbb884e29cf374f26.jpg"
+      },
+      {
+        id: 4,
+        nombre: "The Incredible Hulk (2023)",
+        descripcion: "El gigante verde está de regreso. Una historia cargada de fuerza, acción y caos al más puro estilo Hulk..",
+        precio: 18000,
+        imagen: "https://marmota.me/wp-content/uploads/2023/07/Incredible-Hulk-001-000.jpg"
+      },
+      {
+        id: 5,
+        nombre: "Captain America (2025)",
+        descripcion: "Un nuevo capítulo para uno de los héroes más icónicos de Marvel.",
+        precio: 22000,
+        imagen: "https://marmota.me/wp-content/uploads/2025/08/Captain-America-001-2025-Digital-Shan-Empire-00001-scaled.jpg"
+      }
+    ];
+
+
+    /* ==============================
+       CARRITO
+    ================================ */
+
+    const carrito = [];
+
+    const contenedorProductos = document.getElementById("productos");
+    const listaCarrito = document.getElementById("lista-carrito");
+    const totalCarrito = document.getElementById("total");
+
+
+    /* ==============================
+       MOSTRAR PRODUCTOS
+    ================================ */
+
+    function mostrarProductos() {
+
+      contenedorProductos.innerHTML = "";
+
+      productos.forEach(prod => {
+
+        const div = document.createElement("div");
+
+        div.className = "producto";
+
+        div.innerHTML = `
+          <img src="${prod.imagen}" alt="${prod.nombre}">
+
+          <h3>${prod.nombre}</h3>
+
+          <p class="descripcion">
+            ${prod.descripcion}
+          </p>
+
+          <p class="precio">
+            ${prod.precio.toLocaleString("es-CO", {
+              style: "currency",
+              currency: "COP",
+              minimumFractionDigits: 0
+            })}
+          </p>
+
+          <button onclick="agregarAlCarrito(${prod.id})">
+            Agregar al carrito
+          </button>
+        `;
+
+        contenedorProductos.appendChild(div);
+
+      });
+
+    }
+
+
+    /* ==============================
+       AGREGAR AL CARRITO
+    ================================ */
+
+    function agregarAlCarrito(id) {
+
+      const productoExistente =
+        carrito.find(p => p.id === id);
+
+      if (productoExistente) {
+
+        productoExistente.cantidad++;
+
+      } else {
+
+        const producto =
+          productos.find(p => p.id === id);
+
+        carrito.push({
+          ...producto,
+          cantidad: 1
+        });
+
+      }
+
+      actualizarCarrito();
+
+    }
+
+
+    /* ==============================
+       ACTUALIZAR CARRITO
+    ================================ */
+
+    function actualizarCarrito() {
+
+      listaCarrito.innerHTML = "";
+
+      let total = 0;
+      let totalItems = 0;
+
+      carrito.forEach(item => {
+
+        const li =
+          document.createElement("li");
+
+        const subtotal =
+          item.precio * item.cantidad;
+
+        li.textContent =
+          `${item.nombre} x${item.cantidad} — ` +
+          subtotal.toLocaleString("es-CO", {
+            style: "currency",
+            currency: "COP",
+            minimumFractionDigits: 0
+          });
+
+        listaCarrito.appendChild(li);
+
+        total += subtotal;
+        totalItems += item.cantidad;
+
+      });
+
+      totalCarrito.textContent =
+        total.toLocaleString("es-CO");
+
+      actualizarTituloCarrito(totalItems);
+
+    }
+
+
+    /* ==============================
+       CONTADOR DEL CARRITO
+    ================================ */
+
+    function actualizarTituloCarrito(cantidad) {
+
+      const titulo =
+        document.querySelector(".carrito h2");
+
+      titulo.textContent =
+        `🧾 Carrito de Compras (${cantidad})`;
+
+    }
+
+
+    /* ==============================
+       VACIAR CARRITO
+    ================================ */
+
+    function vaciarCarrito() {
+
+      if (carrito.length === 0) {
+
+        alert("🛒 El carrito ya está vacío.");
+
+        return;
+
+      }
+
+      if (
+        confirm(
+          "¿Estás seguro de que quieres vaciar el carrito?"
+        )
+      ) {
+
+        carrito.length = 0;
+
+        actualizarCarrito();
+
+      }
+
+    }
+
+
+    /* ==============================
+       FINALIZAR COMPRA
+    ================================ */
+
+    function finalizarCompra() {
+
+      if (carrito.length === 0) {
+
+        alert(
+          "🛒 Tu carrito está vacío. Agrega productos antes de finalizar la compra."
+        );
+
+        return;
+
+      }
+
+      alert(
+        "🎉 ¡Pedido simulado confirmado!\n\n" +
+        "En un eCommerce real, ahora entrarían en acción " +
+        "el backend, la pasarela de pago y la logística."
+      );
+
+      carrito.length = 0;
+
+      actualizarCarrito();
+
+    }
+
+
+    /* ==============================
+       INICIAR TIENDA
+    ================================ */
+
+    mostrarProductos();
+  </script>
+</body>
+</html>
